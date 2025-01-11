@@ -119,3 +119,40 @@ exports.saveProject = async(req, res) => {
     }
 
 }
+
+exports.getProjects = async(req, res) => {
+    try {
+        let {token} = req.body;
+        let decoded = jwt.verify(token, secret)
+        let user = await userModel.findOne({ _id: decoded.userId });
+        if(!user){
+            res.status(400).json({success: false, msg: "User not found"})
+        }
+        let projects = await projectModel.find({ createdBy: user._id });
+        return res.status(200).json({success: true, msg: "Projects fetched Successfully", projects:projects})
+
+    } catch (error) {
+        res.status(500).json({success: false, msg: error.message})
+        
+    }
+}
+
+exports.getOneProject = async(req, res) => {
+    try {
+        let {token, projectId} = req.body;
+        let decoded = jwt.verify(token, secret)
+        let user = await userModel.findOne({ _id: decoded.userId });
+        if(!user){
+            res.status(400).json({success: false, msg: "User not found"})
+        }
+        let project = await projectModel.findOne({ _id: projectId });
+        if(!project){
+            res.status(400).json({success: false, msg: "Project not found"})
+        }
+        return res.status(200).json({success: true, msg: "Project fetched Successfully", project:project})
+    } catch (error) {
+        res.status(500).json({success: false, msg: error.message})
+        
+    }
+
+}
