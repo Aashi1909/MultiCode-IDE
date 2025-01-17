@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import mainlogo from "../images/mainlogo.png";
 import { Link, useNavigate } from 'react-router-dom';
-
+import { api_base_url } from '../helper';
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
 
@@ -9,8 +10,28 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
   const submitForm =(e)=>{
     e.preventDefault();
+    fetch(api_base_url+"/signup",{
+      mode:"cors",
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        name:name,
+        email:email,
+        password:password
+      })
+    }).then(res => res.json()
+  ).then(data => {
+    if(data.success){
+      navigate("/login");
+    }
+    else{
+      toast.error(data.msg);
+    }
+
+  });
   }
   return (
     <>

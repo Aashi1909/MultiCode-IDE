@@ -1,17 +1,39 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import mainlogo from "../images/mainlogo.png";
 import { Link, useNavigate } from 'react-router-dom';
+import { api_base_url } from '../helper';
+import { toast } from 'react-toastify';
 
 
 const Login = () => {
-
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
 
   const submitForm =(e)=>{
     e.preventDefault();
-  }
+    fetch(api_base_url+ "/login",{
+          mode:"cors",
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            email:email,
+            password:password
+          })
+        }).then(res => res.json()
+      ).then(data => {
+        if(data.success){
+          localStorage.setItem("token", data.token);
+          navigate("/");
+        }
+        else{
+          toast.error(data.msg);
+        }
+    
+      });
+      }
+  
   return (
     <>
     <div className="con flex flex-col items-center justify-center min-h-screen ">

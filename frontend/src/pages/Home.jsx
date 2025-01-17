@@ -13,7 +13,7 @@ const Home = () => {
     <>
     <Navbar />
     <div className='flex items-center px-[100px] justify-between mt-5 '>
-    <h3 className='text-2xl !text-black'>👋 Hi, Mahdi</h3>
+    <h3 className='text-2xl !text-black'>Welcome User!</h3>
     <div className='flex items-center '>
       <button className='btnNormal bg-orange-500 mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-600 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
       </button>
