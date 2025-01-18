@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { IoIosAdd } from "react-icons/io";
 import python from "../images/pythonimg.png"
+import { useNavigate } from 'react-router-dom';
 import { MdEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import Select from 'react-select'
+import { api_base_url } from '../helper';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 
 
@@ -12,6 +17,11 @@ const Home = () => {
   const [isCreateModel, setIsCreateModel] = useState(false)
   const [languageOptions, setLanguageOptions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState(null); 
+
+  const navigate = useNavigate()
+
+  const [name, setName] = useState('')
+
 
 
   const customStyles = {
@@ -78,6 +88,30 @@ const Home = () => {
     getRunTimes();
   }, [])
 
+  const createProj =() =>{
+    fetch(api_base_url + "/createProject", {
+      mode: "cors",
+      method: "POST",
+      headers:{
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({
+        name:name,
+        projectType: selectedLanguage.value,
+        token: localStorage.getItem("token")
+      })
+    }).then(res =>res.json()).then(data =>{
+      if(data.success){
+        navigate("/editor/ + data.projectId")
+      }
+      else{
+        toast.error(data.msg)
+      }
+
+    })
+
+  }
+
   return (
     <>
     <Navbar />
@@ -112,11 +146,15 @@ const Home = () => {
 
     {
       isCreateModel ? 
-      <div className=' modelContainer flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'> 
-      <div className='modelBox flex flex-col items-start w-[25vw] h-[40vh] p-[20px] rounded-xl bg-white'>
+      <div onClick={(e) => {
+        if(e.target.classList.contains("modelContainer")){
+          setIsCreateModel(false)
+        }
+      }} className=' modelContainer flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'> 
+      <div className='modelBox flex flex-col items-start w-[25vw] h-[auto] p-[20px] rounded-xl bg-white'>
         <h3 className=' text-2xl text-black font-semibold'>Create Project</h3>
         <div className='inputBox'>
-          <input type='text' placeholder='Enter Your Project Name' />
+          <input type='text'  onChange = {(e) => {setName(e.target.value)}} value={name} placeholder='Enter Your Project Name' />
         </div>
           <Select placeholder="Select a Language" options={languageOptions} styles={customStyles} onChange={handleLanguageChange} />
           {selectedLanguage && (
@@ -124,7 +162,7 @@ const Home = () => {
                 <p className="text-[14px] text-green-500 mt-2">
                   Selected Language: {selectedLanguage.label}
                 </p>
-                {/* <button onClick={createProj} className="btnNormal bg-blue-500 transition-all hover:bg-blue-600 mt-2">Create</button> */}
+                <button onClick={createProj} className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 mt-2 !w-[100%]">Create</button>
               </>
             )}
 
