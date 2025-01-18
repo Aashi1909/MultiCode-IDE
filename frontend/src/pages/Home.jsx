@@ -10,11 +10,9 @@ import Select from 'react-select'
 
 const Home = () => {
   const [isCreateModel, setIsCreateModel] = useState(false)
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
+  const [languageOptions, setLanguageOptions] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState(null); 
+
 
   const customStyles = {
     control: (provided) => ({
@@ -50,7 +48,31 @@ const Home = () => {
     let res = await fetch("https://emkc.org/api/v2/piston/runtimes");
     let data = await res.json();
      console.log(data)
-  }
+
+     const filteredLanguages = [
+      "python",
+      "javascript",
+      "c",
+      "c++",
+      "java",
+      "bash"
+    ];
+
+    const options = data
+      .filter(runtime => filteredLanguages.includes(runtime.language))
+      .map(runtime => ({
+        label: `${runtime.language} (${runtime.version})`,
+        value: runtime.language === "c++" ? "cpp" : runtime.language,
+        version: runtime.version,
+      }));
+
+    setLanguageOptions(options);
+  };
+
+  const handleLanguageChange = (selectedOption) => {
+    setSelectedLanguage(selectedOption); // Update selected language state
+    console.log("Selected language:", selectedOption);
+  };
 
   useEffect(() =>{
     getRunTimes();
@@ -96,7 +118,15 @@ const Home = () => {
         <div className='inputBox'>
           <input type='text' placeholder='Enter Your Project Name' />
         </div>
-          <Select placeholder="Select a Language" options={options} styles={customStyles} />
+          <Select placeholder="Select a Language" options={languageOptions} styles={customStyles} onChange={handleLanguageChange} />
+          {selectedLanguage && (
+              <>
+                <p className="text-[14px] text-green-500 mt-2">
+                  Selected Language: {selectedLanguage.label}
+                </p>
+                {/* <button onClick={createProj} className="btnNormal bg-blue-500 transition-all hover:bg-blue-600 mt-2">Create</button> */}
+              </>
+            )}
 
       </div>
       </div>  : " "
