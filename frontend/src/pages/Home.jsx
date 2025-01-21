@@ -7,7 +7,6 @@ import { MdEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import Select from 'react-select'
 import { api_base_url } from '../helper';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
@@ -17,10 +16,11 @@ const Home = () => {
   const [isCreateModel, setIsCreateModel] = useState(false)
   const [languageOptions, setLanguageOptions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState(null); 
+  const [projects, setProjects] = useState(null)
+  const [name, setName] = useState('')
 
   const navigate = useNavigate()
 
-  const [name, setName] = useState('')
 
 
 
@@ -54,6 +54,26 @@ const Home = () => {
     }),
   };
 
+  const getProjects = async() => {
+    fetch(api_base_url + "/getProjects", {
+      mode:"cors",
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        token: localStorage.getItem("token")
+      })
+    }).then(res => res.json()).then(data => {
+      if(data.success){
+        setProjects(data.projects)
+      }
+      else{
+        toast.error(data.msg)
+      }
+    })
+  }
+
   const getRunTimes = async()=> {
     let res = await fetch("https://emkc.org/api/v2/piston/runtimes");
     let data = await res.json();
@@ -86,6 +106,7 @@ const Home = () => {
 
   useEffect(() =>{
     getRunTimes();
+    getProjects();
   }, [])
 
   const createProj =() =>{
@@ -102,7 +123,7 @@ const Home = () => {
       })
     }).then(res =>res.json()).then(data =>{
       if(data.success){
-        navigate("/editor/ + data.projectId")
+        navigate("/editor/" + data.projectId)
       }
       else{
         toast.error(data.msg)
@@ -112,6 +133,7 @@ const Home = () => {
 
   }
 
+ 
   return (
     <>
     <Navbar />
@@ -124,22 +146,29 @@ const Home = () => {
     </div>
 
     <div className='projects px-[100px] mt-5'>
-      <div className='project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e]' >
-        <div className='flex items-center gap-[15px]'>
-        <img src={python}  className='w-[100px] h-[100px] object-cover' alt="" />
-        <div>
-          <h3 className='text-xl'>Python Project</h3>
-          <p className='text-[15px] !text-[gray]'>5 Jan, 2025</p>
-        </div>
-        </div>
+  
+      {
+        projects && projects.length > 0 ? projects.map((project, index) => {
+          return <>
+              <div className='project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e]' >
+              <div className='flex items-center gap-[15px]'>
+              <img src={python}  className='w-[100px] h-[100px] object-cover' alt="" />
+              <div>
+                <h3 className='text-xl'>Python Project</h3>
+                <p className='text-[15px] !text-[gray]'>5 Jan, 2025</p>
+              </div>
+              </div>
 
-        <div className='flex items-center gap-[15px]'>
-          <button className='btnNormal bg-orange-500  hover:bg-orange-600 font-semibold flex items-center !w-[100%] text-lg'><MdEdit className='mr-2'/> Edit</button>
-          <button className='btnNormal bg-orange-500  hover:bg-orange-600 font-semibold !w-[100%] text-lg flex items-center'><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
-        </div>
-        
+              <div className='flex items-center gap-[15px]'>
+                <button className='btnNormal bg-orange-500  hover:bg-orange-600 font-semibold flex items-center !w-[100%] text-lg'><MdEdit className='mr-2'/> Edit</button>
+                <button className='btnNormal bg-orange-500  hover:bg-orange-600 font-semibold !w-[100%] text-lg flex items-center'><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
+              </div>
+            </div>
 
-      </div>
+          </>
+          
+        }) : "No Projects Found !"
+      }
 
 
     </div>
