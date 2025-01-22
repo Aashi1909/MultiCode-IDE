@@ -1,5 +1,5 @@
 body{
-  background-color: #ffffff;
+  background-color: white;
   color: white;
 }
 .inputBox{
@@ -7,8 +7,8 @@ body{
   align-items: center;
   background-color: #000000;
   width: 100%;
-  margin-top: 10px;
-  border-radius: 30px;
+  margin-top: 25px;
+  border-radius: 5px;
 }
 
 .inputBox input{
@@ -45,7 +45,7 @@ body{
 .css-b62m3t-container{
   width: 100% !important;
   margin-top: 10px;
-  border-radius: 30px;
+  border-radius: 5px;
 }
 .projects .project{
   margin-top: 10px;

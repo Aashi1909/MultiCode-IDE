@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { IoIosAdd } from "react-icons/io";
+import { IoClose } from "react-icons/io5"; 
 import python from "../images/pythonimg.png"
 import { useNavigate } from 'react-router-dom';
 import { MdEdit } from "react-icons/md";
@@ -16,11 +17,10 @@ const Home = () => {
   const [isCreateModel, setIsCreateModel] = useState(false)
   const [languageOptions, setLanguageOptions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState(null); 
-  const [projects, setProjects] = useState(null)
-  const [name, setName] = useState('')
 
   const navigate = useNavigate()
 
+  const [name, setName] = useState('')
 
 
 
@@ -31,6 +31,7 @@ const Home = () => {
       borderColor: '#555',
       color: '#fff',
       padding: '5px',
+      marginTop: '10px'
     }),
     menu: (provided) => ({
       ...provided,
@@ -53,26 +54,6 @@ const Home = () => {
       color: '#aaa',
     }),
   };
-
-  const getProjects = async() => {
-    fetch(api_base_url + "/getProjects", {
-      mode:"cors",
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        token: localStorage.getItem("token")
-      })
-    }).then(res => res.json()).then(data => {
-      if(data.success){
-        setProjects(data.projects)
-      }
-      else{
-        toast.error(data.msg)
-      }
-    })
-  }
 
   const getRunTimes = async()=> {
     let res = await fetch("https://emkc.org/api/v2/piston/runtimes");
@@ -106,7 +87,6 @@ const Home = () => {
 
   useEffect(() =>{
     getRunTimes();
-    getProjects();
   }, [])
 
   const createProj =() =>{
@@ -123,7 +103,7 @@ const Home = () => {
       })
     }).then(res =>res.json()).then(data =>{
       if(data.success){
-        navigate("/editor/" + data.projectId)
+        navigate("/editor/ + data.projectId")
       }
       else{
         toast.error(data.msg)
@@ -133,55 +113,54 @@ const Home = () => {
 
   }
 
- 
   return (
     <>
     <Navbar />
     <div className='flex items-center px-[100px] justify-between mt-5 '>
     <h3 className='text-2xl !text-black'>Welcome User!</h3>
     <div className='flex items-center '>
-      <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-orange-500 mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-600 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
+      <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-[#0f1026] mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-600 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
       </button>
     </div>
     </div>
 
     <div className='projects px-[100px] mt-5'>
-  
-      {
-        projects && projects.length > 0 ? projects.map((project, index) => {
-          return <>
-              <div className='project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e]' >
-              <div className='flex items-center gap-[15px]'>
-              <img src={python}  className='w-[100px] h-[100px] object-cover' alt="" />
-              <div>
-                <h3 className='text-xl'>Python Project</h3>
-                <p className='text-[15px] !text-[gray]'>5 Jan, 2025</p>
-              </div>
-              </div>
+      <div className='project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e]' >
+        <div className='flex items-center gap-[15px]'>
+        <img src={python}  className='w-[100px] h-[100px] object-cover' alt="" />
+        <div>
+          <h3 className='text-xl !text-[black'>Python Project</h3>
+          <p className='text-[15px] !text-[gray]'>5 Jan, 2025</p>
+        </div>
+        </div>
 
-              <div className='flex items-center gap-[15px]'>
-                <button className='btnNormal bg-orange-500  hover:bg-orange-600 font-semibold flex items-center !w-[100%] text-lg'><MdEdit className='mr-2'/> Edit</button>
-                <button className='btnNormal bg-orange-500  hover:bg-orange-600 font-semibold !w-[100%] text-lg flex items-center'><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
-              </div>
-            </div>
+        <div className='flex items-center gap-[15px]'>
+          <button className='btnNormal bg-[#0f1026]  hover:bg-orange-600 font-semibold flex items-center !w-[100%] text-lg'><MdEdit className='mr-2'/> Edit</button>
+          <button className='btnNormal bg-[#0f1026]  hover:bg-orange-600 font-semibold !w-[100%] text-lg flex items-center'><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
+        </div>
+        
 
-          </>
-          
-        }) : "No Projects Found !"
-      }
+      </div>
 
 
     </div>
 
     {
-      isCreateModel ? 
-      <div onClick={(e) => {
-        if(e.target.classList.contains("modelContainer")){
-          setIsCreateModel(false)
-        }
-      }} className=' modelContainer flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'> 
-      <div className='modelBox flex flex-col items-start w-[25vw] h-[auto] p-[20px] rounded-xl bg-white'>
-        <h3 className=' text-2xl text-black font-semibold'>Create Project</h3>
+      isCreateModel &&
+      <div 
+      // onClick={(e) => {
+      //   if(e.target.classList.contains("modelContainer")){
+      //     setIsCreateModel(false)
+      //   }
+      // }}
+       className=' modelContainer flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'> 
+      <div className='modelBox flex flex-col items-start w-[50vh] h-[40vh] p-[20px] rounded-xl bg-white'>
+      <div className="flex items-center justify-between w-full">
+      <h3 className="text-2xl text-black font-semibold">Create Project</h3>
+      <IoClose
+        onClick={() => setIsCreateModel(false)}
+        className="text-black text-2xl cursor-pointer hover:text-red-500"/>
+      </div>
         <div className='inputBox'>
           <input type='text'  onChange = {(e) => {setName(e.target.value)}} value={name} placeholder='Enter Your Project Name' />
         </div>
@@ -196,7 +175,7 @@ const Home = () => {
             )}
 
       </div>
-      </div>  : " "
+      </div>  
 
     }
       
