@@ -156,3 +156,21 @@ exports.getOneProject = async(req, res) => {
     }
 
 }
+
+exports.deleteProject = async(req,res) =>{
+    try{
+        let {token, projectId} = req.body;
+        let decoded = jwt.verify(token, secret)
+        let user = await userModel.findOne({_id: decoded.userId})
+        if(!user){
+            res.status(400).json({success: false, msg: "User not found"})
+        }
+        let project= await projectModel.findOneAndDelete({_id:projectId})
+        return res.status(200).json({success:true, msg: "Project Deleted Successfully"})
+
+
+    }catch(error){
+        res.status(500).json({success: false, msg: error.message})
+    }
+
+}

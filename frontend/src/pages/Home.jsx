@@ -3,6 +3,10 @@ import Navbar from '../components/Navbar'
 import { IoIosAdd } from "react-icons/io";
 import { IoClose } from "react-icons/io5"; 
 import python from "../images/pythonimg.png"
+import js from "../images/js.png"
+import cpp from "../images/cpp.png"
+import c from "../images/c.png"
+import java from "../images/java.png"
 import { useNavigate } from 'react-router-dom';
 import { MdEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
@@ -206,25 +210,25 @@ const Home = () => {
           projects && projects.length > 0 ? projects.map((project, index) => {
             return <>
               <div className="project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e]">
-                <div onClick={() => { navigate("/editior/" + project._id) }} className='flex w-full items-center gap-[15px]'>
+                <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
                   {
-                    project.projLanguage === "python" ?
+                    project.projectType === "python" ?
                       <>
-                        <img className='w-[130px] h-[100px] object-cover' src="https://images.ctfassets.net/em6l9zw4tzag/oVfiswjNH7DuCb7qGEBPK/b391db3a1d0d3290b96ce7f6aacb32b0/python.png" alt="" />
+                        <img className='w-[130px] h-[100px] object-cover' src={python} alt="" />
                       </>
-                      : project.projLanguage === "javascript" ?
+                      : project.projectType === "javascript" ?
                         <>
-                          <img className='w-[130px] h-[100px] object-cover' src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="" />
-                        </> : project.projLanguage === "cpp" ?
+                          <img className='w-[130px] h-[100px] object-cover' src={js} alt="" />
+                        </> : project.projectType === "cpp" ?
                           <>
-                            <img className='w-[130px] h-[100px] object-cover' src="https://upload.wikimedia.org/wikipedia/commons/3/32/C%2B%2B_logo.png" alt="" />
-                          </> : project.projLanguage === "c" ?
+                            <img className='w-[130px] h-[100px] object-cover' src={cpp} alt="" />
+                          </> : project.projectType === "c" ?
                             <>
-                              <img className='w-[130px] h-[100px] object-cover' src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="" />
-                            </> : project.projLanguage === "java" ?
+                              <img className='w-[130px] h-[100px] object-cover' src={c} alt="" />
+                            </> : project.projectType === "java" ?
                               <>
-                                <img className='w-[130px] h-[100px] object-cover' src="https://static-00.iconduck.com/assets.00/java-icon-1511x2048-6ikx8301.png" alt="" />
-                              </> : project.projLanguage === "bash" ?
+                                <img className='w-[130px] h-[100px] object-cover' src={java} alt="" />
+                              </> : project.projectType === "bash" ?
                                 <>
                                   <img className='w-[130px] h-[100px] object-cover' src="https://w7.pngwing.com/pngs/48/567/png-transparent-bash-shell-script-command-line-interface-z-shell-shell-rectangle-logo-commandline-interface-thumbnail.png" alt="" />
                                 </> : ""
@@ -240,8 +244,8 @@ const Home = () => {
                     setIsEditModelShow(true);
                     setEditProjId(project._id);
                     setName(project.name);
-                  }}>Edit</button>
-                  <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-red-500 transition-all hover:bg-red-600">Delete</button>
+                  }}><MdEdit className='mr-2'/>Edit</button>
+                  <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-red-500 transition-all hover:bg-red-600"><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
                 </div>
               </div>
             </>
