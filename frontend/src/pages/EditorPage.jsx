@@ -1,11 +1,42 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Editor from '@monaco-editor/react';
 import { VscRunCoverage } from "react-icons/vsc";
+import { useParams } from 'react-router-dom';
+import { api_base_url } from '../helper';
+import { toast } from 'react-toastify';
 
 
 const EditorPage = () => {
   const [code, setCode] = useState('');
+  let {id} = useParams()
+
+  useEffect(() =>{
+    fetch(api_base_url + "/getOneProject", {
+      mode:"cors",
+      method: "POST",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        token : localStorage.getItem("token"),
+        projectId : id
+      })
+    }).then(res => res.json()).then(data =>{
+      if(data.success){
+        setCode(data.project.code)
+      }
+      else{
+        toast.error(data.msg)
+      }
+    })
+
+  }, [])
+
+  const saveProject = async(req, res) =>{
+    
+  }
+
   return (
     <>
     <Navbar />
