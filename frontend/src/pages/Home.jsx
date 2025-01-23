@@ -7,14 +7,13 @@ import js from "../images/js.png"
 import cpp from "../images/cpp.png"
 import c from "../images/c.png"
 import java from "../images/java.png"
+import bash from "../images/bash.png"
 import { useNavigate } from 'react-router-dom';
 import { MdEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import Select from 'react-select'
 import { api_base_url } from '../helper';
 import { toast } from 'react-toastify';
-
-
 
 
 const Home = () => {
@@ -230,7 +229,7 @@ const Home = () => {
                                 <img className='w-[130px] h-[100px] object-cover' src={java} alt="" />
                               </> : project.projectType === "bash" ?
                                 <>
-                                  <img className='w-[130px] h-[100px] object-cover' src="https://w7.pngwing.com/pngs/48/567/png-transparent-bash-shell-script-command-line-interface-z-shell-shell-rectangle-logo-commandline-interface-thumbnail.png" alt="" />
+                                  <img className='w-[130px] h-[100px] object-cover' src={bash} alt="" />
                                 </> : ""
                   }
                   <div>
@@ -282,14 +281,12 @@ const Home = () => {
     
       {
         isEditModelShow &&
-        <div onClick={(e) => {
-          if (e.target.classList.contains("modelCon")) {
-            setIsEditModelShow(false);
-            setName("");
-          }
-        }} className='modelCon flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'>
+        <div className='modelCon flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'>
           <div className="modelBox flex flex-col items-start rounded-xl p-[20px] w-[25vw] h-[auto] bg-[#0F0E0E]">
             <h3 className='text-xl font-bold text-center'>Update Project</h3>
+            <IoClose
+            onClick={() => isEditModelShow(false)}
+            className="text-black text-2xl cursor-pointer hover:text-red-500"/>
             <div className="inputBox">
               <input onChange={(e) => { setName(e.target.value) }} value={name} type="text" placeholder='Enter your project name' className="text-black" />
             </div>
