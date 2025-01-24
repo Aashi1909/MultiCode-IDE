@@ -78,7 +78,7 @@ exports.login = async(req, res) => {
 
 exports.createProject = async(req, res) => {
     try{
-        let {name, projectType, token} = req.body;
+        let {name, projectType, token, version} = req.body;
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({ _id: decoded.userId });        
         if(!user){
@@ -88,7 +88,8 @@ exports.createProject = async(req, res) => {
             name: name,
             projectType: projectType,
             createdBy: user._id,
-            code: getStartupCode(projectType)
+            code: getStartupCode(projectType),
+            version: version
         })
         return res.status(200).json({success: true, msg: "Project created Successfully", projectId : project._id})
 

@@ -9,6 +9,9 @@ import { toast } from 'react-toastify';
 
 const EditorPage = () => {
   const [code, setCode] = useState('');
+  const [data, setData] = useState(null);
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState(false);
   let {id} = useParams()
 
   useEffect(() =>{
@@ -25,6 +28,7 @@ const EditorPage = () => {
     }).then(res => res.json()).then(data =>{
       if(data.success){
         setCode(data.project.code)
+        setData(data.project)
       }
       else{
         toast.error(data.msg)
@@ -34,8 +38,7 @@ const EditorPage = () => {
   }, [])
 
   const saveProject = () => {
-    const trimmedCode = code?.toString().trim(); // Ensure code is a string and trimmed
-    console.log('Saving code:', trimmedCode); // Debug log
+    const trimmedCode = code?.toString().trim(); 
 
     fetch(`${api_base_url}/saveProject`, {
       mode: 'cors',
@@ -79,8 +82,27 @@ const EditorPage = () => {
   }, [code])
 
 
-  const runProject =()=>{
-    
+  const runProject = ()=>{
+    fetch("https://emkc.org/api/v2/piston/execute", {
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify({
+        language : data.projectType,
+        version : data.version,
+        files: [
+          {
+            filename: data.name + data.projectType === "python" ? ".py" : data.projectType === "java" ? ".java" : data.projectType === "javascript" ? ".js" : data.projectType === "c" ? ".c" : data.projectType === "cpp" ? ".cpp" : data.projectType === "bash" ? ".sh" :  data.projectType === "go" ? ".go" : "",
+            content : code
+          }
+        ]
+      })
+    }).then(res =>res.json()).then(data =>{
+      setOutput(data.run.output)
+      setError(data.run.code === 1 ? true : false )
+
+    })
   }
 
   return (
@@ -96,6 +118,8 @@ const EditorPage = () => {
       <p className='text-lg'>Output</p>
       <button onClick={runProject} className='btnNormal bg-orange-500 flex items-center !w-[70px] text-white'><VscRunCoverage className=' mr-1 !text-2xl'/>Run</button>
       </div>
+      <pre className={`w-full h-[75vh] ${error ? "text-red-500" : ""}`} style={{textWrap: "nowrap"}}>{output}</pre>
+
 
     </div>
 

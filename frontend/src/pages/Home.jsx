@@ -82,7 +82,6 @@ const Home = () => {
   const getRunTimes = async()=> {
     let res = await fetch("https://emkc.org/api/v2/piston/runtimes");
     let data = await res.json();
-     console.log(data)
 
      const filteredLanguages = [
       "python",
@@ -124,7 +123,8 @@ const Home = () => {
       body: JSON.stringify({
         name:name,
         projectType: selectedLanguage.value,
-        token: localStorage.getItem("token")
+        token: localStorage.getItem("token"),
+        version : selectedLanguage.version
       })
     }).then(res =>res.json()).then(data =>{
       if(data.success){
