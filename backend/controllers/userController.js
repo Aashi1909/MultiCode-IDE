@@ -106,12 +106,7 @@ exports.saveProject = async(req, res) => {
         if(!user){
             res.status(400).json({success: false, msg: "User not found"})
         }
-        let project = await projectModel.findOne({ _id: projectId });
-        if(!project){
-            res.status(400).json({success: false, msg: "Project not found"})
-        }
-        project.code = code;
-        await project.save();
+        let project = await projectModel.findOneAndUpdate({ _id: projectId}, {code : code});
         return res.status(200).json({success: true, msg: "Project saved Successfully"})
 
     }catch(error){
