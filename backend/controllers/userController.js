@@ -196,3 +196,30 @@ exports.editProject = async(req,res) =>{
     }
 
 }
+
+// exports.generateLink = async(req, res) =>{
+//     const {docId} = req.body;
+//     if(!docId){
+//       return res.json({success: false, message:"Document is Required!"})
+//     }
+//       // Generate a unique hash
+//     const BASE_URL = "https://docify.com/docs";
+//     const uniqueHash = crypto.randomBytes(16).toString("hex");
+//     const link = `${BASE_URL}/${uniqueHash}`;
+  
+//      // Save the link
+//      links[uniqueHash] = docId;
+//      res.json({success: true, message:"Link Generated Successfully", link:link})
+//   }
+//   // Get document by unique link
+//   router.get("/:hash", (req, res) => {
+//     const { hash } = req.params;
+  
+//     const docId = links[hash];
+//     if (!docId) {
+//       return res.json({ success: false, message: "Invalid link!" });
+//     }
+  
+//     // Redirect or return document data
+//     res.json({ success: true, message: "Document found!", docId: docId });
+//   });

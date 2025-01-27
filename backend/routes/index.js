@@ -24,5 +24,6 @@ router.post("/getProjects", getProjects);
 router.post("/getOneProject", getOneProject);
 router.post("/deleteProject", deleteProject);
 router.post("/editProject", editProject);
+// router.post("/generateLink", generateLink);
 
 module.exports = router;

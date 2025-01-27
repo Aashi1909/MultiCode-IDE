@@ -5,12 +5,15 @@ import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import EditorPage from './pages/EditorPage'
+import { ThemeProvider } from './context/ThemeContext'; 
+
 const App = () => {
   return (
     <>
     <BrowserRouter>
-        <RouteHandler />
-  
+    <ThemeProvider> 
+          <RouteHandler />
+        </ThemeProvider>  
     </BrowserRouter>
       
     </>
