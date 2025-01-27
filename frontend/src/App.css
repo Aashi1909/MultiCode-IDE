@@ -1,11 +1,11 @@
 body{
-  background-color: #fff9f3;
+  background-color: #f9f0e9;
   color: white;
 }
 .inputBox{
   display: flex;
   align-items: center;
-  background-color: #000000;
+  background-color: #e2e2e2;
   width: 100%;
   margin-top: 25px;
   border-radius: 5px;
@@ -17,7 +17,7 @@ body{
   border: none;
   outline: none;
   background-color: transparent;
-  color: #fff;
+  color: black;
   border-radius: 30px;
 }
 

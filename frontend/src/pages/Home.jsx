@@ -31,31 +31,31 @@ const Home = () => {
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      backgroundColor: '#000',
-      borderColor: '#555',
-      color: '#fff',
+      backgroundColor: '#e2e2e2',
+      // borderColor: '#555',
+      color: 'black',
       padding: '5px',
       marginTop: '10px'
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: '#000',
-      color: '#fff',
+      backgroundColor: '#e2e2e2',
+      color: 'black',
       width: "100%"
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? '#333' : '#000',
-      color: '#fff',
+      backgroundColor: state.isFocused ? '#f3dfcd' : '#e2e2e2',
+      color: 'black',
       cursor: 'pointer',
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: '#fff',
+      color: 'black',
     }),
     placeholder: (provided) => ({
       ...provided,
-      color: '#aaa',
+      color: 'black',
     }),
   };
 
@@ -137,6 +137,12 @@ const Home = () => {
     })
 
   }
+
+  const closeModal = () => {
+    setIsCreateModel(false);
+    setName(""); 
+    setSelectedLanguage(null); 
+  };
   const deleteProject = (id) => {
     let conf = confirm("Are you sure you want to delete this project?");
     if (conf) {
@@ -196,14 +202,14 @@ const Home = () => {
     <>
     <Navbar />
     <div className='flex items-center px-[100px] justify-between mt-5 '>
-    <h3 className='text-2xl !text-black'>Welcome User!</h3>
+    <h3 className='text-3xl font-medium !text-black'>Welcome User!</h3>
     <div className='flex items-center '>
-      <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-[#0f1026] mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-600 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
+      <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-orange-600 mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-700 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
       </button>
     </div>
     </div>
 
-    <div className="projects px-[100px] mt-5 pb-10">
+    <div className="projects text-black text-lg font-normal px-[100px] mt-5 pb-10">
 
         {
           projects && projects.length > 0 ? projects.map((project, index) => {
@@ -259,7 +265,7 @@ const Home = () => {
       <div className="flex items-center justify-between w-full">
       <h3 className="text-2xl text-black font-semibold">Create Project</h3>
       <IoClose
-        onClick={() => setIsCreateModel(false)}
+        onClick={closeModal}
         className="text-black text-2xl cursor-pointer hover:text-red-500"/>
       </div>
         <div className='inputBox'>
