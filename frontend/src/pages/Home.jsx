@@ -204,17 +204,16 @@ const Home = () => {
     <div className='flex items-center px-[100px] justify-between mt-5 '>
     <h3 className='text-3xl font-medium !text-black'>Welcome User!</h3>
     <div className='flex items-center '>
-      <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-orange-600 mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-700 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
+      <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-orange-500 mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-600 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
       </button>
     </div>
     </div>
 
     <div className="projects text-black text-lg font-normal px-[100px] mt-5 pb-10">
-
         {
           projects && projects.length > 0 ? projects.map((project, index) => {
             return <>
-              <div className="project w-full p-[15px] flex items-center justify-between bg-[#0f0e0e]">
+                <div className='project w-full p-[15px] flex items-center justify-between border border-black-300 rounded-lg shadow-md' >
                 <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
                   {
                     project.projectType === "python" ?
@@ -240,22 +239,26 @@ const Home = () => {
                   }
                   <div>
                     <h3 className='text-xl'>{project.name}</h3>
-                    <p className='text-[14px] text-[gray]'>{new Date(project.date).toDateString()}</p>
+                    <p className='text-[17px] text-[gray]'>{new Date(project.date).toDateString()}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-[15px]">
-                  <button className="btnNormal bg-blue-500 transition-all hover:bg-blue-600" onClick={() => {
+                  <button className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 text-white !w-[100%]" onClick={() => {
                     setIsEditModelShow(true);
                     setEditProjId(project._id);
                     setName(project.name);
                   }}><MdEdit className='mr-2'/>Edit</button>
-                  <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-red-500 transition-all hover:bg-red-600"><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
+                  <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-gray-500 text-white transition-all hover:bg-gray-600 !w-[100%]"><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
                 </div>
               </div>
             </>
           }) : "No Project Found !"
-        }
+        } 
+
+       
+
+
       </div>
 
     {

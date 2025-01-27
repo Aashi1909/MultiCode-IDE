@@ -33,22 +33,18 @@ body{
 .projects .project{
   margin-top: 10px;
   cursor: pointer;
-  transition: .3s;
-  border: none;
-}
+  transition: all 0.3s ease-in-out;
+  background-color: #ffffff;
 
-.projects .project:hover{
-  background-color: #000000;
-  border: 1px solid #0f0e0e;
+}
+.projects .project:hover {
+  border: 2px solid rgb(215, 212, 212); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  transform: scale(1.01); 
 }
 
 .css-b62m3t-container{
   width: 100% !important;
   margin-top: 10px;
   border-radius: 5px;
-}
-.projects .project{
-  margin-top: 10px;
-  cursor: pointer;
-
 }
