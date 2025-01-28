@@ -4,7 +4,7 @@ import { FaRegUser } from "react-icons/fa";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext"; 
 
-const Navbar = ({ selectedLanguage, onLanguageChange })  => {
+const Navbar = ({ filteredLanguage, onLanguageChange })  => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const { darkMode, toggleDarkMode } = useTheme();
@@ -40,7 +40,7 @@ const Navbar = ({ selectedLanguage, onLanguageChange })  => {
 
         <select
         className="border border-gray-300 rounded-lg p-2"
-        value={selectedLanguage}
+        value={filteredLanguage}
         onChange={onLanguageChange}
       >
         <option value="all">All</option>
@@ -50,6 +50,8 @@ const Navbar = ({ selectedLanguage, onLanguageChange })  => {
         <option value="java">Java</option>
         <option value="bash">Bash</option>
       </select>
+
+      
     
         <div className="links flex items-center gap-[15px] relative">
           <div
