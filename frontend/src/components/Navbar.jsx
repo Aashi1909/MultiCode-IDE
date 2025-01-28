@@ -7,8 +7,8 @@ import { useTheme } from "../context/ThemeContext";
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
-  const { darkMode, toggleDarkMode } = useTheme(); 
-
+  const { darkMode, toggleDarkMode } = useTheme();
+  
   
 
   const handleLogout = () => {
@@ -37,6 +37,28 @@ const Navbar = () => {
         } shadow-xl transition-colors duration-300`}
       >
         <img className="w-[110px] object-cover" src={logo} alt="" />
+
+        <select
+        className="border border-gray-300 rounded-lg p-2"
+        onChange={(e) => setFilterType(e.target.value)}
+      >
+        <option value="all">All</option>
+        <option value="python">Python</option>
+        <option value="javascript">JavaScript</option>
+        <option value="cpp">C++</option>
+        <option value="java">Java</option>
+        <option value="bash">Bash</option>
+      </select>
+
+      {/* Sort by Date */}
+      <select
+        className="border border-gray-300 rounded-lg p-2 ml-4"
+        onChange={(e) => setSortOrder(e.target.value)}
+      >
+        <option value="">Sort by</option>
+        <option value="asc">Date: Oldest to Newest</option>
+        <option value="desc">Date: Newest to Oldest</option>
+      </select>
         <div className="links flex items-center gap-[15px] relative">
           <div
             className="relative flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2"
