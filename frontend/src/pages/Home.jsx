@@ -24,7 +24,8 @@ const Home = () => {
   const [isCreateModel, setIsCreateModel] = useState(false)
   const [languageOptions, setLanguageOptions] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState(null); 
-  const [projects, setProjects] = useState(null)
+  const [filteredLanguage, setFilteredLanguage] = useState('all'); 
+  const [projects, setProjects] = useState([])
   const [isEditModelShow, setIsEditModelShow] = useState(false);
 
   const { darkMode } = useTheme();
@@ -111,8 +112,16 @@ const Home = () => {
 
   const handleLanguageChange = (selectedOption) => {
     setSelectedLanguage(selectedOption); 
-    console.log("Selected language:", selectedOption);
   };
+
+  const handleLanguageFilter = (e) =>{
+    setFilteredLanguage(e.target.value)
+  }
+
+  const filteredProjects = filteredLanguage === 'all' 
+  ? projects 
+  : projects.filter((project) => project.projectType === filteredLanguage);
+
 
   useEffect(() =>{
     getProjects();
@@ -227,7 +236,7 @@ const Home = () => {
 
   return (
     <>
-    <Navbar />
+    <Navbar filteredLanguage={filteredLanguage} onLanguageChange={handleLanguageFilter} />
     <div className='flex items-center px-[100px] justify-between mt-5 '>
     <h3 className={`text-3xl font-medium ${darkMode ? " !text-white" : "!text-black"}`}>Welcome User!</h3>
     <div className='flex items-center '>
@@ -237,67 +246,30 @@ const Home = () => {
     </div>
 
     <div className="projects text-black text-lg font-normal px-[100px] mt-5 pb-10">
-        {
-          projects && projects.length > 0 ? projects.map((project, index) => {
-            return <>
-                <div className='project w-full p-[15px] flex items-center justify-between border border-black-300 rounded-lg shadow-md' >
-                <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
-                  {
-                    project.projectType === "python" ?
-                      <>
-                        <img className='w-[130px] h-[100px] object-cover' src={python} alt="" />
-                      </>
-                      : project.projectType === "javascript" ?
-                        <>
-                          <img className='w-[130px] h-[100px] object-cover' src={js} alt="" />
-                        </> : project.projectType === "cpp" ?
-                          <>
-                            <img className='w-[130px] h-[100px] object-cover' src={cpp} alt="" />
-                          </> : project.projectType === "c" ?
-                            <>
-                              <img className='w-[130px] h-[100px] object-cover' src={c} alt="" />
-                            </> : project.projectType === "java" ?
-                              <>
-                                <img className='w-[130px] h-[100px] object-cover' src={java} alt="" />
-                              </> : project.projectType === "bash" ?
-                                <>
-                                  <img className='w-[130px] h-[100px] object-cover' src={bash} alt="" />
-                                </> : ""
-                  }
-                  <div>
-                    <h3 className='text-xl'>{project.name}</h3>
-                    <p className='text-[17px] text-[gray]'>{new Date(project.date).toDateString()}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-[15px]">
-                <button 
-                  className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 text-white flex items-center justify-center gap-2 !w-[100%]" 
-                  onClick={() => {
-                    setIsEditModelShow(true);
-                    setEditProjId(project._id);
-                    setName(project.name);
-                  }}
-                >
-                  <MdEdit className="text-lg" /> Edit
-                </button>
-                <button 
-                  onClick={() => { deleteProject(project._id) }} 
-                  className="btnNormal bg-gray-500 text-white transition-all hover:bg-gray-600 flex items-center justify-center gap-2 !w-[100%]"
-                >
-                  <MdDeleteOutline className="text-lg" /> Delete
-                </button>
+        {filteredProjects && filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
+          <div key={index} className='project w-full p-[15px] flex items-center justify-between border border-black-300 rounded-lg shadow-md'>
+            <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
+              {project.projectType === "python" && <img className='w-[130px] h-[100px] object-cover' src={python} alt="" />}
+              {project.projectType === "javascript" && <img className='w-[130px] h-[100px] object-cover' src={js} alt="" />}
+              {project.projectType === "cpp" && <img className='w-[130px] h-[100px] object-cover' src={cpp} alt="" />}
+              <div>
+                <h3 className='text-xl'>{project.name}</h3>
+                <p className='text-[17px] text-[gray]'>{new Date(project.date).toDateString()}</p>
               </div>
+            </div>
 
-              </div>
-            </>
-          }) : "No Project Found !"
-        } 
-
-       
-
-
+            <div className="flex items-center gap-[15px]">
+              <button className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 text-white flex items-center justify-center gap-2 !w-[100%]" onClick={() => { setIsEditModelShow(true); setEditProjId(project._id); setName(project.name); }}>
+                <MdEdit className="text-lg" /> Edit
+              </button>
+              <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-gray-500 text-white transition-all hover:bg-gray-600 flex items-center justify-center gap-2 !w-[100%]">
+                <MdDeleteOutline className="text-lg" /> Delete
+              </button>
+            </div>
+          </div>
+        )) : "No Project Found!"}
       </div>
+
 
     {
       isCreateModel &&
