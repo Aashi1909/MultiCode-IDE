@@ -14,7 +14,9 @@ import { MdDeleteOutline } from "react-icons/md";
 import Select from 'react-select'
 import { api_base_url } from '../helper';
 import { toast } from 'react-toastify';
-import { useTheme } from "../context/ThemeContext"; // Import useTheme
+import { useTheme } from "../context/ThemeContext"; 
+import Swal from 'sweetalert2';
+
 
 
 
@@ -147,29 +149,49 @@ const Home = () => {
     setName(""); 
     setSelectedLanguage(null); 
   };
+  
   const deleteProject = (id) => {
-    let conf = confirm("Are you sure you want to delete this project?");
-    if (conf) {
-      fetch(api_base_url + "/deleteProject", {
-        mode: "cors",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          projectId: id,
-          token: localStorage.getItem("token")
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this project? ',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes, delete it!',
+      reverseButtons: true,
+      customClass: {
+        confirmButton: 'swal-confirm-button',
+        cancelButton: 'swal-cancel-button',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(api_base_url + '/deleteProject', {
+          mode: 'cors',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            projectId: id,
+            token: localStorage.getItem('token'),
+          }),
         })
-      }).then(res => res.json()).then(data => {
-        if (data.success) {
-          getProjects();
-        }
-        else {
-          toast.error(data.msg);
-        }
-      });
-    }
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              toast.success('Project deleted successfully.');
+              getProjects();
+            } else {
+              toast.error(data.msg);
+            }
+          })
+          .catch((error) => {
+            toast.error('An error occurred while deleting the project.');
+          });
+      } 
+    });
   };
+  
 
   const [editProjId, setEditProjId] = useState("");
 
@@ -187,6 +209,7 @@ const Home = () => {
       })
     }).then(res => res.json()).then(data => {
       if (data.success) {
+        toast.success(data.msg);
         setIsEditModelShow(false);
         setName("");
         setEditProjId("");
@@ -248,13 +271,24 @@ const Home = () => {
                 </div>
 
                 <div className="flex items-center gap-[15px]">
-                  <button className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 text-white !w-[100%]" onClick={() => {
+                <button 
+                  className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 text-white flex items-center justify-center gap-2 !w-[100%]" 
+                  onClick={() => {
                     setIsEditModelShow(true);
                     setEditProjId(project._id);
                     setName(project.name);
-                  }}><MdEdit className='mr-2'/>Edit</button>
-                  <button onClick={() => { deleteProject(project._id) }} className="btnNormal bg-gray-500 text-white transition-all hover:bg-gray-600 !w-[100%]"><MdDeleteOutline className='mr-2 !text-xl'/>Delete</button>
-                </div>
+                  }}
+                >
+                  <MdEdit className="text-lg" /> Edit
+                </button>
+                <button 
+                  onClick={() => { deleteProject(project._id) }} 
+                  className="btnNormal bg-gray-500 text-white transition-all hover:bg-gray-600 flex items-center justify-center gap-2 !w-[100%]"
+                >
+                  <MdDeleteOutline className="text-lg" /> Delete
+                </button>
+              </div>
+
               </div>
             </>
           }) : "No Project Found !"
@@ -295,16 +329,19 @@ const Home = () => {
       {
         isEditModelShow &&
         <div className='modelCon flex flex-col items-center justify-center w-screen h-screen fixed top-0 left-0 bg-[rgba(0,0,0,0.5)]'>
-          <div className="modelBox flex flex-col items-start rounded-xl p-[20px] w-[25vw] h-[auto] bg-[#0F0E0E]">
-            <h3 className='text-xl font-bold text-center'>Update Project</h3>
-            <IoClose
-            onClick={() => isEditModelShow(false)}
-            className="text-black text-2xl cursor-pointer hover:text-red-500"/>
-            <div className="inputBox">
+          <div className="modelBox flex flex-col items-start rounded-xl p-[20px] w-[25vw] h-[auto] text-black bg-white relative">
+          <div className="header flex items-center justify-between w-full mb-4">
+          <h3 className="text-xl font-bold">Update Project</h3>
+          <IoClose
+            onClick={() => setIsEditModelShow(false)}
+            className="text-black text-2xl cursor-pointer hover:text-red-500"
+          />
+        </div>
+            <div className="inputBox !mt-1">
               <input onChange={(e) => { setName(e.target.value) }} value={name} type="text" placeholder='Enter your project name' className="text-black" />
             </div>
 
-            <button onClick={updateProj} className="btnNormal bg-blue-500 transition-all hover:bg-blue-600 mt-2">Update</button>
+            <button onClick={updateProj} className="btnNormal text-white mt-4 bg-orange-500 transition-all hover:bg-orange-600 ">Update</button>
 
           </div>
         </div>

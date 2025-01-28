@@ -53,3 +53,18 @@ body.dark {
   margin-top: 10px;
   border-radius: 5px;
 }
+.swal-confirm-button {
+  background-color: rgb(243, 130, 1) !important;
+  color: white !important;
+  border: none;
+  box-shadow: none;
+}
+
+.swal-confirm-button:hover {
+  background-color: rgb(227, 101, 5) !important;
+}
+
+.swal-cancel-button {
+  background-color: #e0e0e0 !important;
+  color: black !important;
+}
