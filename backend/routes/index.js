@@ -9,7 +9,9 @@ const {
   getProjects,
   getOneProject,
   deleteProject,
-  editProject
+  editProject,
+  generateLink,
+  getDocumentByHash,
 } = require("../controllers/userController");
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -24,6 +26,7 @@ router.post("/getProjects", getProjects);
 router.post("/getOneProject", getOneProject);
 router.post("/deleteProject", deleteProject);
 router.post("/editProject", editProject);
-// router.post("/generateLink", generateLink);
+router.post("/generateLink", generateLink);
+router.post("/getDocumentByHash", getDocumentByHash);
 
 module.exports = router;

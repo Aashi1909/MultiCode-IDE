@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Editor from "@monaco-editor/react";
+import LinkPopup from '../components/LinkPopup';
 import { VscRunCoverage } from "react-icons/vsc";
 import { useParams } from "react-router-dom";
 import { api_base_url } from "../helper";
 import { toast } from "react-toastify";
 import { IoShareSocialOutline } from "react-icons/io5";
+import Swal from 'sweetalert2';
+
 
 const EditorPage = () => {
   const [code, setCode] = useState("");
   const [data, setData] = useState(null);
   const [output, setOutput] = useState("");
   const [error, setError] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [project, setProject] = useState(null);
+
+
+
   let { id } = useParams();
 
   useEffect(() => {
@@ -31,11 +40,12 @@ const EditorPage = () => {
         if (data.success) {
           setCode(data.project.code);
           setData(data.project);
+          setProject(data.project)
         } else {
           toast.error(data.msg);
         }
       });
-  }, []);
+  }, [id]);
 
   const saveProject = () => {
     const trimmedCode = code?.toString().trim();
@@ -119,6 +129,38 @@ const EditorPage = () => {
       });
   };
 
+  const generateLink = async (id) => {
+    try {
+      const response = await fetch(api_base_url + "/generateLink", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          projectId: id,
+        }),
+      });
+  
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setGeneratedLink(data.link);
+        setIsPopupOpen(true); 
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: data.message || "Failed to generate the link",
+        });
+      }
+    } catch(error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong. Please try again later.",
+      });
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -143,10 +185,30 @@ const EditorPage = () => {
             <p className="text-lg">Output</p>
 
             <div className="flex items-center space-x-4">
-              <button className="btnNormal flex items-center justify-center !w-[90px] text-white px-4 py-2 rounded-lg hover:bg-orange-500 " style={{border: "1px solid #ef6e00"}}>
-                <IoShareSocialOutline className="mr-2 text-2xl text-white " />
-                Share
-              </button>
+            <button
+              className="btnNormal flex items-center justify-center !w-[90px] text-white px-4 py-2 rounded-lg hover:bg-orange-500"
+              onClick={() => {
+                if (project && project._id) { 
+                  generateLink(project._id);
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Project is not defined!',
+                  });
+                }
+              }}
+              style={{ border: "1px solid #ef6e00" }}
+            >
+              <IoShareSocialOutline className="mr-2 text-2xl text-white" />
+              Share
+            </button>
+
+              <LinkPopup
+                isOpen={isPopupOpen}
+                onClose={() => setIsPopupOpen(false)}
+                link={generatedLink}
+              />
               <button
                 onClick={runProject}
                 className="btnNormal bg-orange-500 flex items-center justify-center !w-[90px] text-white px-4 py-2 rounded-lg hover:bg-orange-600"

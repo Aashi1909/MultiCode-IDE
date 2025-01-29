@@ -28,6 +28,9 @@ const Home = () => {
   const [projects, setProjects] = useState([])
   const [isEditModelShow, setIsEditModelShow] = useState(false);
 
+
+
+
   const { darkMode } = useTheme();
 
 
@@ -233,6 +236,8 @@ const Home = () => {
       }
     })
   };
+  
+
 
   return (
     <>

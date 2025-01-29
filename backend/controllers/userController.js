@@ -3,6 +3,8 @@ const projectModel = require("../models/projectModel")
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const crypto = require("crypto");
+
 dotenv.config();
 
 
@@ -197,29 +199,30 @@ exports.editProject = async(req,res) =>{
 
 }
 
-// exports.generateLink = async(req, res) =>{
-//     const {docId} = req.body;
-//     if(!docId){
-//       return res.json({success: false, message:"Document is Required!"})
-//     }
-//       // Generate a unique hash
-//     const BASE_URL = "https://docify.com/docs";
-//     const uniqueHash = crypto.randomBytes(16).toString("hex");
-//     const link = `${BASE_URL}/${uniqueHash}`;
+const links = {}; 
+
+exports.generateLink = async (req, res) => {
+    const { projectId } = req.body;
+    if (!projectId) {
+      return res.json({ success: false, message: "Project is Required!" });
+    }
   
-//      // Save the link
-//      links[uniqueHash] = docId;
-//      res.json({success: true, message:"Link Generated Successfully", link:link})
-//   }
-//   // Get document by unique link
-//   router.get("/:hash", (req, res) => {
-//     const { hash } = req.params;
+    const baseURL = `${req.protocol}://${req.headers.host}`;
+    const uniqueHash = crypto.randomBytes(16).toString("hex");
+    const link = `${baseURL}/${uniqueHash}`;
   
-//     const docId = links[hash];
-//     if (!docId) {
-//       return res.json({ success: false, message: "Invalid link!" });
-//     }
+    links[uniqueHash] = projectId;
   
-//     // Redirect or return document data
-//     res.json({ success: true, message: "Document found!", docId: docId });
-//   });
+    res.json({ success: true, message: "Link Generated Successfully", link: link });
+  };
+  
+  exports.getDocumentByHash = async (req, res) => {
+    const { hash } = req.params;
+  
+    const projectId = links[hash];
+    if (!projectId) {
+      return res.json({ success: false, message: "Invalid link!" });
+    }
+  
+    res.json({ success: true, message: "Project found!", projectId: projectId });
+  };
