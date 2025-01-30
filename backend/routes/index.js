@@ -13,10 +13,12 @@ const {
   generateLink,
   getDocumentByHash,
 } = require("../controllers/userController");
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+
+
+router.get("/", function (req, res) {
+  res.json({ message: "Welcome to MultiCode-IDE API!" });
 });
+
 
 router.post("/signUp", signUp);
 router.post("/login", login);
