@@ -1,1 +1,1 @@
-export const api_base_url = "http://localhost:5000"
+export const api_base_url = "https://multicode-ide.onrender.com/"
