@@ -35,7 +35,7 @@ exports.signUp = async(req, res) => {
         let {email,password, name } = req.body;
         let emailCon = await userModel.findOne({email: email})
         if(emailCon){
-            res.status(400).json({success: false, msg: "Email already exists"})
+            return res.status(400).json({success: false, msg: "Email already exists"})
         }
 
         bcrypt.genSalt(10, function(err, salt) {
@@ -45,14 +45,14 @@ exports.signUp = async(req, res) => {
                     password:hash,
                     name:name 
                 })
-                res.status(200).json({success: true, msg: "User created successfully"})
+                return res.status(200).json({success: true, msg: "User created successfully"})
             })
 
         })
        
 
     }catch(error){
-        res.status(500).json({success: false, msg: error.message})
+        return res.status(500).json({success: false, msg: error.message})
     }
 
 }
@@ -62,19 +62,19 @@ exports.login = async(req, res) => {
         let {email,password} = req.body;
         let user = await userModel.findOne({email: email})
         if(!user){
-            res.status(400).json({success: false, msg: "User not found"})
+            return res.status(400).json({success: false, msg: "User not found"})
         }
         bcrypt.compare(password, user.password, function(err, result) {
             if(result){
                 let token = jwt.sign({userId : user._id}, secret);
-                res.status(200).json({success: true, msg: "Login Successfully", token})
+                return res.status(200).json({success: true, msg: "Login Successfully", token})
             }else{
-                res.status(400).json({success: false, msg: "Invalid credentials"})
+                return res.status(400).json({success: false, msg: "Invalid credentials"})
             }
         });
 
     }catch(error){
-        return res.status(500).json({success: false, msg: error.message})
+        return  res.status(500).json({success: false, msg: error.message})
     }
 }
 
@@ -84,7 +84,7 @@ exports.createProject = async(req, res) => {
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({ _id: decoded.userId });        
         if(!user){
-            res.status(400).json({success: false, msg: "User not found"})
+            return res.status(400).json({success: false, msg: "User not found"})
         }
         let project = await projectModel.create({
             name: name,
@@ -93,10 +93,10 @@ exports.createProject = async(req, res) => {
             code: getStartupCode(projectType),
             version: version
         })
-        return res.status(200).json({success: true, msg: "Project created Successfully", projectId : project._id})
+         return res.status(200).json({success: true, msg: "Project created Successfully", projectId : project._id})
 
     }catch(error){
-        return res.status(500).json({success: false, msg: error.message})
+         return res.status(500).json({success: false, msg: error.message})
     }
 
 }
@@ -107,13 +107,13 @@ exports.saveProject = async(req, res) => {
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({ _id: decoded.userId });
         if(!user){
-            res.status(400).json({success: false, msg: "User not found"})
+            return res.status(400).json({success: false, msg: "User not found"})
         }
         let project = await projectModel.findOneAndUpdate({ _id: projectId}, {code : code});
-        return res.status(200).json({success: true, msg: "Project saved Successfully"})
+        return  res.status(200).json({success: true, msg: "Project saved Successfully"})
 
     }catch(error){
-        return res.status(500).json({success: false, msg: error.message})
+        return  res.status(500).json({success: false, msg: error.message})
     }
 
 }
@@ -124,13 +124,13 @@ exports.getProjects = async(req, res) => {
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({ _id: decoded.userId });
         if(!user){
-            res.status(400).json({success: false, msg: "User not found"})
+            return res.status(400).json({success: false, msg: "User not found"})
         }
         let projects = await projectModel.find({ createdBy: user._id });
-        return res.status(200).json({success: true, msg: "Projects fetched Successfully", projects:projects})
+        return  res.status(200).json({success: true, msg: "Projects fetched Successfully", projects:projects})
 
     } catch (error) {
-        res.status(500).json({success: false, msg: error.message})
+        return res.status(500).json({success: false, msg: error.message})
         
     }
 }
@@ -141,15 +141,15 @@ exports.getOneProject = async(req, res) => {
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({ _id: decoded.userId });
         if(!user){
-            res.status(400).json({success: false, msg: "User not found"})
+            return res.status(400).json({success: false, msg: "User not found"})
         }
         let project = await projectModel.findOne({ _id: projectId });
         if(!project){
-            res.status(400).json({success: false, msg: "Project not found"})
+            return res.status(400).json({success: false, msg: "Project not found"})
         }
-        return res.status(200).json({success: true, msg: "Project fetched Successfully", project:project})
+        return  res.status(200).json({success: true, msg: "Project fetched Successfully", project:project})
     } catch (error) {
-        res.status(500).json({success: false, msg: error.message})
+        return res.status(500).json({success: false, msg: error.message})
         
     }
 
@@ -161,14 +161,14 @@ exports.deleteProject = async(req,res) =>{
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({_id: decoded.userId})
         if(!user){
-            res.status(400).json({success: false, msg: "User not found"})
+            return res.status(400).json({success: false, msg: "User not found"})
         }
         let project= await projectModel.findOneAndDelete({_id:projectId})
-        return res.status(200).json({success:true, msg: "Project Deleted Successfully"})
+        return  res.status(200).json({success:true, msg: "Project Deleted Successfully"})
 
 
     }catch(error){
-        res.status(500).json({success: false, msg: error.message})
+        return res.status(500).json({success: false, msg: error.message})
     }
 
 }
@@ -179,22 +179,22 @@ exports.editProject = async(req,res) =>{
         let decoded = jwt.verify(token, secret)
         let user = await userModel.findOne({_id: decoded.userId})
         if(!user){
-            return res.status(404).json({success:false, msg:"User Not Found!"})
+            return  res.status(404).json({success:false, msg:"User Not Found!"})
         }
         let project = await projectModel.findOne({_id:projectId})
         if(project){
             project.name = name;
             await project.save()
-            return res.status(200).json({success:true, msg:"Project Edited Successfully!"})
+            return  res.status(200).json({success:true, msg:"Project Edited Successfully!"})
 
 
         }else{
-            return res.status(404).json({success:false, msg: "Project Not Found!"})
+            return  res.status(404).json({success:false, msg: "Project Not Found!"})
         }
 
     }catch(error)
     {
-        res.status(500).json({success: false, msg: error.message})
+        return res.status(500).json({success: false, msg: error.message})
     }
 
 }
