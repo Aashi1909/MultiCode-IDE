@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   cors({
-    origin: "https://multicode-ide-5.onrender.com", 
+    origin: "https://multicode-ide.onrender.com", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
