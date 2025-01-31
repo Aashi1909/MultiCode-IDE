@@ -13,6 +13,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const submitForm =(e)=>{
     e.preventDefault();
+    console.log(api_base_url, "api_base_url")
     fetch(api_base_url+"/signUp",{
       mode:"cors",
       method:"POST",
