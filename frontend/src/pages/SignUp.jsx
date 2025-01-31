@@ -16,7 +16,7 @@ const SignUp = () => {
 
     console.log(api_base_url, "api_base_url")
 
-    fetch(`${api_base_url}/signUp`,{
+    fetch("https://multicode-ide.onrender.com/signUp",{
       mode:"cors",
       method:"POST",
       headers:{"Content-Type":"application/json"},
