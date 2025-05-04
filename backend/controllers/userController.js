@@ -209,7 +209,7 @@ exports.generateLink = async (req, res) => {
   
     const baseURL = `${req.protocol}://${req.headers.host}`;
     const uniqueHash = crypto.randomBytes(16).toString("hex");
-    const link = `${baseURL}/${uniqueHash}`;
+    const link = `${baseURL}/share/${uniqueHash}`;
   
     links[uniqueHash] = projectId;
   
@@ -223,6 +223,9 @@ exports.generateLink = async (req, res) => {
     if (!projectId) {
       return res.json({ success: false, message: "Invalid link!" });
     }
-  
-    res.json({ success: true, message: "Project found!", projectId: projectId });
+    const project = await projectModel.findBy({projectId });
+    if (!project) {
+      return res.json({ success: false, message: "Project not found!" });
+    }
+    res.json({ success: true, message: "Project found!", project });
   };

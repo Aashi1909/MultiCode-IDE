@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import EditorPage from './pages/EditorPage';
+import SharedView from './pages/SharedView';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -24,7 +25,8 @@ const App = () => {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/editor/:id" element={isLoggedIn ? <EditorPage /> : <Navigate to="/login" />} />
-        </Routes>
+          <Route path="/share/:hash" element= {<SharedView />}/>
+          </Routes>
     </BrowserRouter>
   );
 };
