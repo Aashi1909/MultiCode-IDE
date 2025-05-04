@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./App.css"
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
@@ -8,11 +8,23 @@ import EditorPage from './pages/EditorPage'
 import { ThemeProvider } from './context/ThemeContext'; 
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
   return (
     <>
     <BrowserRouter>
     <ThemeProvider> 
-          <RouteHandler />
+          <RouteHandler isLoggedIn={isLoggedIn} />
         </ThemeProvider>  
     </BrowserRouter>
       
@@ -20,8 +32,7 @@ const App = () => {
   )
 }
 
-const RouteHandler = () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn")
+const RouteHandler = ({isLoggedIn}) => {
   return (
     <>
     <Routes>
