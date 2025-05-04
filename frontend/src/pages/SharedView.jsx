@@ -9,13 +9,13 @@ export default function SharedView() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`${api_base_url}/getDocumentByHash`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ hash }), // using POST as per your backend
-    })
+    fetch(`${api_base_url}/getDocumentByHash${hash}`, 
+      // method: "POST",
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      // body: JSON.stringify({ hash }), // using POST as per your backend
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

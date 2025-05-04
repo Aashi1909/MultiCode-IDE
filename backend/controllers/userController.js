@@ -223,7 +223,7 @@ exports.generateLink = async (req, res) => {
     if (!projectId) {
       return res.json({ success: false, message: "Invalid link!" });
     }
-    const project = await projectModel.findBy({projectId });
+    const project = await projectModel.findOne({projectId });
     if (!project) {
       return res.json({ success: false, message: "Project not found!" });
     }
