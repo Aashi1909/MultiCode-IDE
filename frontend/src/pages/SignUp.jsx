@@ -13,7 +13,10 @@ const SignUp = () => {
   const navigate = useNavigate();
   const submitForm =(e)=>{
     e.preventDefault();
-    fetch(api_base_url+"/signUp",{
+
+    console.log(api_base_url, "api_base_url")
+
+    fetch(api_base_url + "/signUp",{
       mode:"cors",
       method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -24,6 +27,7 @@ const SignUp = () => {
       })
     }).then(res => res.json()
   ).then(data => {
+    console.log(data, "DAATTTTTTAAAAA")
     if(data.success){
       navigate("/login");
     }

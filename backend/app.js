@@ -17,11 +17,16 @@ const port = process.env.PORT || 5002;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors({
-  origin: 'https://multicode-ide-5.onrender.com', 
-  methods: ['GET', 'POST'], 
-  credentials: true, 
-}));
+app.use(
+  cors({
+    origin: [
+      "https://multicode-ide.onrender.com", 
+      "https://multicode-ide-5.onrender.com" // Add frontend URL here
+    ], 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use('/', indexRouter);
 
 app.listen(port, () => {
