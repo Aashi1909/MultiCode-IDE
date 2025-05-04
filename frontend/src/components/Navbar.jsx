@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import logo from "../images/mainlogo.png";
 import { FaRegUser } from "react-icons/fa";
-import { FaSun, FaMoon } from "react-icons/fa";
-import { useTheme } from "../context/ThemeContext"; 
 
 const Navbar = ({ filteredLanguage, onLanguageChange })  => {
   const [showDropdown, setShowDropdown] = useState(false);

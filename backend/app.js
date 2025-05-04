@@ -16,7 +16,7 @@ const port = process.env.PORT || 5002;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   cors({
     origin: [
@@ -29,15 +29,14 @@ app.use(
 );
 app.use('/', indexRouter);
 
-// Serve frontend build in production
-if (process.env.NODE_ENV === 'production') {
-  const clientBuildPath = path.join(__dirname, 'frontend', 'build');
-  app.use(express.static(clientBuildPath));
+const clientBuildPath = path.join(__dirname, 'frontend', 'build');
+app.use(express.static(clientBuildPath));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
-  });
-}
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
 
 
 app.listen(port, () => {
