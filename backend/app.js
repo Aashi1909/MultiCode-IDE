@@ -29,6 +29,17 @@ app.use(
 );
 app.use('/', indexRouter);
 
+// Serve frontend build in production
+if (process.env.NODE_ENV === 'production') {
+  const clientBuildPath = path.join(__dirname, 'frontend', 'build');
+  app.use(express.static(clientBuildPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
+}
+
+
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
   });
