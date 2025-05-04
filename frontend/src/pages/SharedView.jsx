@@ -9,7 +9,7 @@ export default function SharedView() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`${api_base_url}/getDocumentByHash${hash}`, 
+    fetch(`${api_base_url}/share/${hash}`, 
       // method: "POST",
       // headers: {
       //   "Content-Type": "application/json",

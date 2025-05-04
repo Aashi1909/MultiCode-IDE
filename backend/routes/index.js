@@ -29,6 +29,8 @@ router.post("/getOneProject", getOneProject);
 router.post("/deleteProject", deleteProject);
 router.post("/editProject", editProject);
 router.post("/generateLink", generateLink);
-router.post("/getDocumentByHash", getDocumentByHash);
+// router.get("/getDocumentByHash", getDocumentByHash);
+router.get("/share/:hash", getDocumentByHash); // ✅ Correct route
+
 
 module.exports = router;
