@@ -199,33 +199,61 @@ exports.editProject = async(req,res) =>{
 
 }
 
-const links = {}; 
+const links = new Map(); 
 
 exports.generateLink = async (req, res) => {
-    const { projectId } = req.body;
-    if (!projectId) {
-      return res.json({ success: false, message: "Project is Required!" });
-    }
+  const { projectId } = req.body;
   
-    const baseURL = `${req.protocol}://${req.headers.host}`;
-    const uniqueHash = crypto.randomBytes(16).toString("hex");
-    const link = `${baseURL}/share/${uniqueHash}`;
-  
-    links[uniqueHash] = projectId;
-  
-    res.json({ success: true, message: "Link Generated Successfully", link: link });
-  };
-  
-  exports.getDocumentByHash = async (req, res) => {
-    const { hash } = req.params;
-  
-    const projectId = links[hash];
-    if (!projectId) {
-      return res.json({ success: false, message: "Invalid link!" });
-    }
-    const project = await projectModel.findById({projectId });
+  if (!projectId) {
+    return res.status(400).json({ success: false, message: "Project ID required!" });
+  }
+
+  try {
+    const project = await projectModel.findById(projectId);
     if (!project) {
-      return res.json({ success: false, message: "Project not found!" });
+      return res.status(404).json({ success: false, message: "Project not found" });
     }
-    res.json({ success: true, message: "Project found!", project });
-  };
+
+    const hash = crypto.randomBytes(16).toString("hex");
+    const link = `${req.protocol}://${req.headers.host}/share/${hash}`;
+
+    links.set(hash, {
+      projectId: project._id,
+      created: Date.now()
+    });
+
+    console.log(`Generated link: ${hash} -> ${project._id}`); 
+    return res.json({ success: true, link });
+
+  } catch (error) {
+    console.error("Generate link error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+exports.getDocumentByHash = async (req, res) => {
+  const { hash } = req.params;
+  console.log(`Looking up hash: ${hash}`); 
+
+  if (!links.has(hash)) {
+    console.log(`Hash not found: ${hash}`); 
+    return res.status(404).json({ success: false, message: "Invalid link" });
+  }
+
+  try {
+    const { projectId } = links.get(hash);
+    console.log(`Found project ID: ${projectId} for hash: ${hash}`); 
+
+    const project = await projectModel.findById(projectId);
+    if (!project) {
+      console.log(`Project not found: ${projectId}`); 
+      return res.status(404).json({ success: false, message: "Project deleted" });
+    }
+
+    return res.json({ success: true, project });
+
+  } catch (error) {
+    console.error("Get document error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
