@@ -163,7 +163,7 @@ const EditorPage = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div
         className="flex items-center justify-between"
         style={{ height: "calc(100vh - 90px)" }}

@@ -2,11 +2,7 @@ body{
   background-color: #f9f0e9;
   color: white;
 }
-/* Dark theme */
-body.dark {
-  background-color: #1a1a1a; 
-  color: white; 
-}
+
 .inputBox{
   display: flex;
   align-items: center;

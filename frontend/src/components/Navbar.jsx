@@ -7,7 +7,6 @@ import { useTheme } from "../context/ThemeContext";
 const Navbar = ({ filteredLanguage, onLanguageChange })  => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
-  const { darkMode, toggleDarkMode } = useTheme();
   
   
 
@@ -32,9 +31,7 @@ const Navbar = ({ filteredLanguage, onLanguageChange })  => {
   return (
     <>
       <div
-        className={`nav px-[100px] flex items-center justify-between h-[90px] ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
-        } shadow-xl transition-colors duration-300`}
+        className={`nav px-[100px] flex items-center justify-between h-[90px] bg-white text-black shadow-xl transition-colors duration-300`}
       >
         <img className="w-[110px] object-cover" src={logo} alt="" />
 
@@ -54,40 +51,25 @@ const Navbar = ({ filteredLanguage, onLanguageChange })  => {
       
     
         <div className="links flex items-center gap-[15px] relative">
-          <div
-            className="relative flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 p-2"
-            onClick={toggleDarkMode}
-          >
-            {darkMode ? (
-              <FaSun className="text-2xl text-yellow-400" />
-            ) : (
-              <FaMoon className="text-2xl text-gray-800" />
-            )}
-          </div>
+
 
           <div
-            className={`relative flex items-center justify-center w-14 h-14 rounded-full border-2  cursor-pointer hover:bg-red-100 dark:hover:bg-gray-700 p-2 ${
-              darkMode ? "border-white" : "border-black"
-            }`}
+            className={`relative flex items-center justify-center w-14 h-14 rounded-full border-2  cursor-pointer hover:bg-red-100 p-2 border-black text-black`}
             onClick={() => setShowDropdown((prev) => !prev)}
           >
             <FaRegUser
-              className={`text-3xl ${
-                darkMode ? "text-white" : "text-black"
-              } transition-all`}
+              className={`text-3xl text-black  transition-all`}
             />
           </div>
 
           {showDropdown && (
             <div
               ref={dropdownRef}
-              className={`absolute top-[60px] right-0 ${
-                darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
-              } shadow-lg rounded-md w-[150px]`}
+              className={`absolute top-[60px] right-0 bg-white text-black shadow-lg rounded-md w-[150px]`}
             >
               <ul className="flex flex-col">
                 <li
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                   onClick={handleLogout}
                 >
                   Logout
