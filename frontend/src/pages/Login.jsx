@@ -5,7 +5,7 @@ import { api_base_url } from '../helper';
 import { toast } from 'react-toastify';
 
 
-const Login = () => {
+const Login = ({onLogin}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Login = () => {
 
   const submitForm =(e)=>{
     e.preventDefault();
-    fetch( api_base_url + "/login",{
+    fetch(api_base_url+ "/login",{
           mode:"cors",
           method:"POST",
           headers:{"Content-Type":"application/json"},
@@ -25,12 +25,12 @@ const Login = () => {
       ).then(data => {
         if(data.success){
           localStorage.setItem("token", data.token);
-          localStorage.setItem("isLoggedIn", true);
-          toast.success("Logged in successfully!");
-
-          setTimeout(() =>{
+          toast.success(data.msg);
+          // localStorage.setItem("isLoggedIn", true);
+          onLogin();
+          // setTimeout(() =>{
             navigate("/");
-          }, 200)
+          // }, 200)
         }
         else{
           toast.error(data.msg);

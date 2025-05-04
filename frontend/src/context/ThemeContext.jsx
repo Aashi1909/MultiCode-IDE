@@ -7,7 +7,6 @@ export const ThemeProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("darkMode")) || false
   );
 
-  // Add or remove the "dark" class from the <body> element
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark");
