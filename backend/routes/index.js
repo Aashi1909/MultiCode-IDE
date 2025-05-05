@@ -12,6 +12,7 @@ const {
   editProject,
   generateLink,
   getDocumentByHash,
+  saveProject
 } = require("../controllers/userController");
 
 
@@ -30,7 +31,9 @@ router.post("/deleteProject", deleteProject);
 router.post("/editProject", editProject);
 router.post("/generateLink", generateLink);
 // router.get("/getDocumentByHash", getDocumentByHash);
-router.get("/share/:hash", getDocumentByHash); // ✅ Correct route
+router.get("/share/:hash", getDocumentByHash); 
+router.get("/saveProject", saveProject); 
+
 
 
 module.exports = router;

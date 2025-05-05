@@ -34,14 +34,10 @@ export default function SharedView() {
     <div className="w-full h-screen bg-gray-900 text-white flex">
       <div className="flex-1 h-full flex flex-col">
         <div className="p-4 border-b border-gray-700">
-          <h1 className="text-xl font-bold">
-            {data.project?.name || "Shared Code"}
-          </h1>
-          <p className="text-sm text-gray-400 mt-1">
-            Language: {language}
-          </p>
+          <h1 className="text-xl font-bold">Shared Code</h1>
+          <p className="text-sm text-gray-400 mt-1">Language: {language}</p>
         </div>
-        
+
         <div className="flex-1 overflow-hidden">
           <Editor
             height="100%"
@@ -52,7 +48,7 @@ export default function SharedView() {
             options={{
               readOnly: true,
               minimap: { enabled: false },
-              scrollBeyondLastLine: false
+              scrollBeyondLastLine: false,
             }}
           />
         </div>

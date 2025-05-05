@@ -257,3 +257,22 @@ exports.getDocumentByHash = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+exports.saveProject = async (req, res) => {
+    const { projectId, code } = req.body;
+  
+    try {
+      const project = await Project.findById(projectId);
+      if (!project) {
+        return res.status(404).json({ success: false, message: 'Project not found' });
+      }
+  
+      project.code = code;
+      await project.save();
+  
+      res.json({ success: true, message: 'Project saved successfully', project });
+    } catch (error) {
+      console.error('Error saving project:', error);
+      res.status(500).json({ success: false, message: 'Server error' });
+    }
+  };

@@ -189,6 +189,7 @@ const EditorPage = () => {
               className="btnNormal flex items-center justify-center !w-[90px] text-white px-4 py-2 rounded-lg hover:bg-orange-500"
               onClick={() => {
                 if (project && project._id) { 
+                  saveProject();
                   generateLink(project._id);
                 } else {
                   Swal.fire({
@@ -209,6 +210,13 @@ const EditorPage = () => {
                 onClose={() => setIsPopupOpen(false)}
                 link={generatedLink}
               />
+              <button
+                onClick={saveProject}
+                className="btnNormal bg-orange-500 flex items-center justify-center !w-[90px] text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+              >
+                <IoShareSocialOutline className="mr-2 text-2xl" />
+                Save
+              </button>
               <button
                 onClick={runProject}
                 className="btnNormal bg-orange-500 flex items-center justify-center !w-[90px] text-white px-4 py-2 rounded-lg hover:bg-orange-600"
