@@ -1,57 +1,51 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api_base_url } from "../helper";
-import Editor from "@monaco-editor/react"; // Make sure this is installed
+import Editor from "@monaco-editor/react";
 
 export default function SharedView() {
   const { hash } = useParams();
-  const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("javascript");
+  const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(`${api_base_url}/share/${hash}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Server error");
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Failed to load code");
         return res.json();
       })
       .then((data) => {
         if (data.success) {
-          setCode(data.project.code);
-          setLanguage(data.project.projectType || "javascript");
+          setProject(data.project);
         } else {
-          setError(data.message || "Failed to load project.");
+          throw new Error(data.message);
         }
       })
-      .catch((err) => {
-        setError(err.message || "Something went wrong.");
-      })
+      .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [hash]);
 
+  if (loading) return <div className="p-4 text-white">Loading...</div>;
+  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
+
   return (
     <div className="w-full h-screen bg-gray-900 text-white flex">
-      <div className="flex-1 h-full flex flex-col">
-        <div className="p-4 border-b border-gray-700">
-          <h1 className="text-xl font-bold">Shared Code</h1>
-          <p className="text-sm text-gray-400 mt-1">Language: {language}</p>
-        </div>
-
-        <div className="flex-1 overflow-hidden">
-          <Editor
-            height="100%"
-            width="100%"
-            theme="vs-dark"
-            language={language}
-            value={code}
-            options={{
-              readOnly: true,
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-            }}
-          />
-        </div>
+      <div className="left w-[50%] h-full">
+        <Editor
+          height="100%"
+          width="100%"
+          theme="vs-dark"
+          language={project.projectType?.toLowerCase() || "javascript"}
+          value={project.code}
+          options={{
+            readOnly: true,
+            minimap: { enabled: false },
+            automaticLayout: true,
+            scrollBeyondLastLine: false,
+            renderWhitespace: "all",
+          }}
+        />
       </div>
     </div>
   );

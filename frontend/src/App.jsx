@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/editor/:id" element={isLoggedIn ? <EditorPage /> : <Navigate to="/login" />} />
-          <Route path="/share/:hash" element= {<SharedView />}/>
+          <Route path="/sharedHash/:hash" element= {<SharedView />}/>
           </Routes>
     </BrowserRouter>
   );

@@ -232,29 +232,36 @@ exports.generateLink = async (req, res) => {
 };
 
 exports.getDocumentByHash = async (req, res) => {
-  const { hash } = req.params;
-  console.log(`Looking up hash: ${hash}`); 
-
-  if (!links.has(hash)) {
-    console.log(`Hash not found: ${hash}`); 
-    return res.status(404).json({ success: false, message: "Invalid link" });
-  }
-
-  try {
-    const { projectId } = links.get(hash);
-    console.log(`Found project ID: ${projectId} for hash: ${hash}`); 
-
-    const project = await projectModel.findById(projectId);
-    if (!project) {
-      console.log(`Project not found: ${projectId}`); 
-      return res.status(404).json({ success: false, message: "Project deleted" });
+    const { hash } = req.params;
+  
+    try {
+      if (!links.has(hash)) {
+        return res.status(404).json({ success: false, message: "Invalid link!" });
+      }
+  
+      const { projectId } = links.get(hash);
+      const project = await projectModel.findById(projectId);
+      
+      if (!project) {
+        return res.status(404).json({ success: false, message: "Project not found!" });
+      }
+  
+      // Clean up the code formatting
+      const cleanedCode = project.code
+        .replace(/\\"/g, '"')      // Unescape quotes
+        .replace(/\\r\\n/g, '\n')  // Convert Windows newlines
+        .replace(/\\n/g, '\n');     // Convert Unix newlines
+  
+      res.json({
+        success: true,
+        project: {
+          ...project._doc,
+          code: cleanedCode
+        }
+      });
+  
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ success: false, message: "Server error" });
     }
-
-    return res.json({ success: true, project });
-
-  } catch (error) {
-    console.error("Get document error:", error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
+  };
