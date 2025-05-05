@@ -32,7 +32,6 @@ router.post("/editProject", editProject);
 router.post("/generateLink", generateLink);
 // router.get("/getDocumentByHash", getDocumentByHash);
 router.get("/share/:hash", getDocumentByHash); 
-router.get("/saveProject", saveProject); 
 
 
 
