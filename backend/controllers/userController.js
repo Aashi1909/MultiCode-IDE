@@ -215,7 +215,9 @@ exports.generateLink = async (req, res) => {
     }
 
     const hash = crypto.randomBytes(16).toString("hex");
-    const link = `${req.protocol}://${req.headers.host}/share/${hash}`;
+    // const link = `${req.protocol}://${req.headers.host}/share/${hash}`;
+    const link = `https://multicode-ide.onrender.com/sharedHash/${hash}`;
+
 
     links.set(hash, {
       projectId: project._id,
