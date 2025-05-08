@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel")
 const projectModel = require("../models/projectModel")
+const LinkModel = require("../models/Link")
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -219,10 +220,7 @@ exports.generateLink = async (req, res) => {
     const link = `https://multicode-ide.onrender.com/sharedHash/${hash}`;
 
 
-    links.set(hash, {
-      projectId: project._id,
-      created: Date.now()
-    });
+    await LinkModel.create({ hash, projectId: project._id });
 
     console.log(`Generated link: ${hash} -> ${project._id}`); 
     return res.json({ success: true, link });
@@ -234,36 +232,34 @@ exports.generateLink = async (req, res) => {
 };
 
 exports.getDocumentByHash = async (req, res) => {
-    const { hash } = req.params;
-  
-    try {
-      if (!links.has(hash)) {
-        return res.status(404).json({ success: false, message: "Invalid link!" });
-      }
-  
-      const { projectId } = links.get(hash);
-      const project = await projectModel.findById(projectId);
-      
-      if (!project) {
-        return res.status(404).json({ success: false, message: "Project not found!" });
-      }
-  
-      // Clean up the code formatting
-      const cleanedCode = project.code
-        .replace(/\\"/g, '"')      // Unescape quotes
-        .replace(/\\r\\n/g, '\n')  // Convert Windows newlines
-        .replace(/\\n/g, '\n');     // Convert Unix newlines
-  
-      res.json({
-        success: true,
-        project: {
-          ...project._doc,
-          code: cleanedCode
-        }
-      });
-  
-    } catch (error) {
-      console.error("Error:", error);
-      res.status(500).json({ success: false, message: "Server error" });
+  const { hash } = req.params;
+
+  try {
+    const linkEntry = await LinkModel.findOne({ hash });
+    if (!linkEntry) {
+      return res.status(404).json({ success: false, message: "Invalid link!" });
     }
-  };
+
+    const project = await projectModel.findById(linkEntry.projectId);
+    if (!project) {
+      return res.status(404).json({ success: false, message: "Project not found!" });
+    }
+
+    const cleanedCode = project.code
+      .replace(/\\"/g, '"')
+      .replace(/\\r\\n/g, '\n')
+      .replace(/\\n/g, '\n');
+
+    res.json({
+      success: true,
+      project: {
+        ...project._doc,
+        code: cleanedCode
+      }
+    });
+
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
