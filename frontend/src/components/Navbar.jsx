@@ -27,7 +27,7 @@ const Navbar = ({ filteredLanguage, onLanguageChange }) => {
   return (
     <>
       <div
-        className={`nav px-[100px] flex items-center justify-between h-[90px] bg-white text-black shadow-xl transition-colors duration-300`}
+        className={`nav px-[100px] flex items-center justify-between h-[90px] bg-white text-black transition-colors duration-300`}
       >
         <img className="w-[110px] object-cover" src={logo} alt="" />
 

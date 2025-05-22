@@ -247,7 +247,7 @@ const Home = () => {
 
     <div className="projects text-black text-lg font-normal px-[100px] mt-5 pb-10">
         {filteredProjects && filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
-          <div key={index} className='project w-full p-[15px] flex items-center justify-between border border-black-300 rounded-lg shadow-md'>
+          <div key={index} className='project w-full p-[15px] flex items-center justify-between border border-black-300 rounded-lg '>
             <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
               {project.projectType === "python" && <img className='w-[130px] h-[100px] object-cover' src={python} alt="" />}
               {project.projectType === "javascript" && <img className='w-[130px] h-[100px] object-cover' src={js} alt="" />}
