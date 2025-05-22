@@ -237,7 +237,7 @@ const Home = () => {
   return (
     <>
     <Navbar filteredLanguage={filteredLanguage} onLanguageChange={handleLanguageFilter} />
-    <div className='flex items-center px-[100px] justify-between mt-5 '>
+    <div className='flex items-center px-10 justify-between mt-5 '>
     <h3 className={`text-3xl font-medium !text-black`}>Welcome User!</h3>
     <div className='flex items-center '>
       <button onClick={() =>{setIsCreateModel(true)}} className='btnNormal bg-orange-500 mr-8 text-white transition-all flex items-center !w-[100%] hover:bg-orange-600 font-semibold text-lg'><IoIosAdd className='mr-2 !text-2xl '/>Create Project
@@ -245,9 +245,9 @@ const Home = () => {
     </div>
     </div>
 
-    <div className="projects text-black text-lg font-normal px-[100px] mt-5 pb-10">
+    <div className="projects text-black text-lg font-normal px-10 mt-5 pb-10">
         {filteredProjects && filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
-          <div key={index} className='project w-full p-[15px] flex items-center justify-between border border-black-300 rounded-lg '>
+          <div key={index} className='project w-full p-4 flex items-center justify-between border border-black-300 rounded-lg mb-4 '>
             <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
               {project.projectType === "python" && <img className='w-[130px] h-[100px] object-cover' src={python} alt="" />}
               {project.projectType === "javascript" && <img className='w-[130px] h-[100px] object-cover' src={js} alt="" />}
@@ -261,7 +261,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-[15px]">
+            <div className="flex items-center gap-4 ml-4">
               <button className="btnNormal bg-orange-500 transition-all hover:bg-orange-600 text-white flex items-center justify-center gap-2 !w-[100%]" onClick={() => { setIsEditModelShow(true); setEditProjId(project._id); setName(project.name); }}>
                 <MdEdit className="text-lg" /> Edit
               </button>
