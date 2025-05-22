@@ -249,12 +249,12 @@ const Home = () => {
         {filteredProjects && filteredProjects.length > 0 ? filteredProjects.map((project, index) => (
           <div key={index} className='project w-full p-4 flex items-center justify-between border border-black-300 rounded-lg mb-4 '>
             <div onClick={() => { navigate("/editor/" + project._id) }} className='flex w-full items-center gap-[15px]'>
-              {project.projectType === "python" && <img className='w-[100px] h-[80px] object-cover' src={python} alt="" />}
-              {project.projectType === "javascript" && <img className='w-[130px] h-[80px] object-cover' src={js} alt="" />}
-              {project.projectType === "cpp" && <img className='w-[130px] h-[80px] object-cover' src={cpp} alt="" />}
-              {project.projectType === "c" && <img className='w-[130px] h-[80px] object-cover' src={c} alt="" />}
-              {project.projectType === "java" && <img className='w-[130px] h-[80px] object-cover' src={java} alt="" />}
-              {project.projectType === "bash" && <img className='w-[130px] h-[80px] object-cover' src={bash} alt="" />}
+              {project.projectType === "python" && <img className='w-[90px] h-[80px] object-cover' src={python} alt="" />}
+              {project.projectType === "javascript" && <img className='w-[90px] h-[80px] object-cover' src={js} alt="" />}
+              {project.projectType === "cpp" && <img className='w-[90px] h-[80px] object-cover' src={cpp} alt="" />}
+              {project.projectType === "c" && <img className='w-[90px] h-[80px] object-cover' src={c} alt="" />}
+              {project.projectType === "java" && <img className='w-[90px] h-[80px] object-cover' src={java} alt="" />}
+              {project.projectType === "bash" && <img className='w-[90px] h-[80px] object-cover' src={bash} alt="" />}
               <div>
                 <h3 className='text-xl'>{project.name}</h3>
                 <p className='text-[17px] text-[gray]'>{new Date(project.date).toDateString()}</p>
