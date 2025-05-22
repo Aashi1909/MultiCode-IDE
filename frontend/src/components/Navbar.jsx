@@ -27,12 +27,12 @@ const Navbar = ({ filteredLanguage, onLanguageChange }) => {
   return (
     <>
       <div
-        className={`nav px-[100px] flex items-center justify-between h-[90px] bg-white text-black transition-colors duration-300`}
+        className={`nav px-10 flex items-center justify-between h-[90px] bg-white text-black transition-colors duration-300`}
       >
-        <img className="w-[110px] object-cover" src={logo} alt="" />
-
+        <div className="flex items-center gap-6">
+        <img className="w-[100px] object-cover" src={logo} alt="Logo" />
         <select
-          className="border border-gray-300 rounded-lg p-2"
+          className="border border-gray-300 rounded-lg p-2 text-sm"
           value={filteredLanguage}
           onChange={onLanguageChange}
         >
@@ -43,10 +43,10 @@ const Navbar = ({ filteredLanguage, onLanguageChange }) => {
           <option value="java">Java</option>
           <option value="bash">Bash</option>
         </select>
-
-        <div className="links flex items-center gap-[15px] relative">
+      </div>
+        <div className="flex items-center relative">
           <div
-            className={`relative flex items-center justify-center w-10 h-10 rounded-full border-2  cursor-pointer hover:bg-red-100 p-2 border-black text-black`}
+            className={` flex items-center justify-center w-10 h-10 rounded-full border-2 cursor-pointer hover:bg-red-100 p-2 border-black text-black`}
             onClick={() => setShowDropdown((prev) => !prev)}
           >
             <FaRegUser className={`text-3xl text-black  transition-all`} />
