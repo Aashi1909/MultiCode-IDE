@@ -9,16 +9,16 @@ body{
   color: white;
 }
 
-/* .inputBox{
+.inputBox{
   display: flex;
   align-items: center;
   background-color: #e2e2e2;
   width: 100%;
   margin-top: 25px;
   border-radius: 5px;
-} */
+} 
 
-/* .inputBox input{
+ .inputBox input{
   flex: 1;
   padding: 15px;
   border: none;
@@ -26,16 +26,16 @@ body{
   background-color: transparent;
   color: black;
   border-radius: 30px;
-} */
+}
 
-/* .btnNormal{
+.btnNormal{
   padding: 10px;
   width: 40%;
   border: none;
   outline: none;
   border-radius: 5px;
   cursor: pointer;
-} */
+} 
 
 .projects .project{
   margin-top: 10px;
@@ -72,16 +72,13 @@ body{
 }
 
 
-/* Main container styling */
 .con {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
   min-height: 100vh;
   padding: 20px;
   position: relative;
   overflow: hidden;
 }
 
-/* Add animated background elements */
 .con::before {
   content: "";
   position: absolute;
@@ -89,7 +86,6 @@ body{
   left: -50%;
   width: 200%;
   height: 200%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
   animation: float 20s ease-in-out infinite;
   pointer-events: none;
 }
@@ -104,7 +100,6 @@ body{
   }
 }
 
-/* Form container styling */
 .con form {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
@@ -134,7 +129,6 @@ body{
   }
 }
 
-/* Logo styling */
 .con form img {
   width: 200px;
   height: auto;
@@ -147,15 +141,13 @@ body{
   transform: scale(1.05);
 }
 
-/* Input box container styling */
-.inputBox {
+.authinputBox {
   width: 100%;
   margin-bottom: 20px;
   position: relative;
 }
 
-/* Input field styling */
-.inputBox input {
+.authinputBox input {
   width: 100%;
   padding: 16px 20px;
   border: 2px solid #e5e7eb;
@@ -168,31 +160,29 @@ body{
   color: #374151;
 }
 
-.inputBox input:focus {
+.authinputBox input:focus {
   border-color: #f97316;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
   transform: translateY(-2px);
 }
 
-.inputBox input::placeholder {
+.authinputBox input::placeholder {
   color: #9ca3af;
   font-weight: 400;
 }
 
-/* Add floating label effect */
-.inputBox input:focus::placeholder {
+.authinputBox input:focus::placeholder {
   opacity: 0.7;
   transform: translateY(-2px);
 }
 
 /* Hover effect for inputs */
-.inputBox input:hover {
+.authinputBox input:hover {
   border-color: #f97316;
   box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
 }
 
-/* Button styling */
-.btnNormal {
+.authbtnNormal {
   width: 100%;
   padding: 16px 24px;
   border: none;
@@ -207,17 +197,17 @@ body{
   transition: all 0.3s ease;
 }
 
-.btnNormal:hover {
+.authbtnNormal:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
 }
 
-.btnNormal:active {
+.authbtnNormal:active {
   transform: translateY(0);
 }
 
 /* Add ripple effect to button */
-.btnNormal::before {
+.authbtnNormal::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -231,17 +221,16 @@ body{
   z-index: 0;
 }
 
-.btnNormal:active::before {
+.authbtnNormal:active::before {
   width: 300px;
   height: 300px;
 }
 
-.btnNormal span {
+.authbtnNormal span {
   position: relative;
   z-index: 1;
 }
 
-/* Link styling */
 .con form p {
   margin-top: 25px;
   margin-bottom: 10px;
