@@ -1,18 +1,24 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+* {
+  font-family: "Inter", sans-serif;
+}
 body{
   background-color: #f9f0e9;
   color: white;
 }
 
-.inputBox{
+/* .inputBox{
   display: flex;
   align-items: center;
   background-color: #e2e2e2;
   width: 100%;
   margin-top: 25px;
   border-radius: 5px;
-}
+} */
 
-.inputBox input{
+/* .inputBox input{
   flex: 1;
   padding: 15px;
   border: none;
@@ -20,16 +26,16 @@ body{
   background-color: transparent;
   color: black;
   border-radius: 30px;
-}
+} */
 
-.btnNormal{
+/* .btnNormal{
   padding: 10px;
   width: 40%;
   border: none;
   outline: none;
   border-radius: 5px;
   cursor: pointer;
-}
+} */
 
 .projects .project{
   margin-top: 10px;
@@ -63,4 +69,350 @@ body{
 .swal-cancel-button {
   background-color: #e0e0e0 !important;
   color: black !important;
+}
+
+
+/* Main container styling */
+.con {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add animated background elements */
+.con::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+}
+
+/* Form container styling */
+.con form {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  padding: 40px;
+  width: min(90vw, 450px);
+  position: relative;
+  animation: slideUp 0.8s ease-out;
+  transition: all 0.3s ease;
+}
+
+.con form:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo styling */
+.con form img {
+  width: 200px;
+  height: auto;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.con form img:hover {
+  transform: scale(1.05);
+}
+
+/* Input box container styling */
+.inputBox {
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Input field styling */
+.inputBox input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+  color: #374151;
+}
+
+.inputBox input:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+  transform: translateY(-2px);
+}
+
+.inputBox input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Add floating label effect */
+.inputBox input:focus::placeholder {
+  opacity: 0.7;
+  transform: translateY(-2px);
+}
+
+/* Hover effect for inputs */
+.inputBox input:hover {
+  border-color: #f97316;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+}
+
+/* Button styling */
+.btnNormal {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btnNormal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+}
+
+.btnNormal:active {
+  transform: translateY(0);
+}
+
+/* Add ripple effect to button */
+.btnNormal::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: width 0.6s, height 0.6s;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.btnNormal:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btnNormal span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Link styling */
+.con form p {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+}
+
+.con form p a {
+  color: #f97316;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.con form p a:hover {
+  color: #ea580c;
+  text-decoration: underline;
+}
+
+/* Add subtle animations */
+.inputBox {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.inputBox:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.inputBox:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.inputBox:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.con form p {
+  animation: fadeInUp 0.6s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.btnNormal {
+  animation: fadeInUp 0.6s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .con form {
+    width: 95vw;
+    padding: 30px 25px;
+    margin: 10px;
+  }
+
+  .con form img {
+    width: 180px;
+    margin-bottom: 25px;
+  }
+
+  .inputBox input {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+
+  .btnNormal {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .con {
+    padding: 15px;
+  }
+
+  .con form {
+    padding: 25px 20px;
+  }
+
+  .con form img {
+    width: 160px;
+    margin-bottom: 20px;
+  }
+
+  .inputBox {
+    margin-bottom: 18px;
+  }
+
+  .inputBox input {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .btnNormal {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Add focus indicators for accessibility */
+.inputBox input:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+.btnNormal:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Loading state for button (optional) */
+.btnNormal.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.btnNormal.loading::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Add subtle glow effect */
+.con form {
+  position: relative;
+}
+
+.con form::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #f97316, #ea580c, #f97316);
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.con form:hover::after {
+  opacity: 0.1;
 }
